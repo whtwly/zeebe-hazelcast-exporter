@@ -15,7 +15,7 @@
     </parent>
 
     <properties>
-        <version.zeebe>8.2.16</version.zeebe>
+        <version.zeebe>8.4.6</version.zeebe>
         <version.exporter.protobuf>1.4.0</version.exporter.protobuf>
         <version.hazelcast>5.3.7</version.hazelcast>
         <version.log4j>2.23.1</version.log4j>
@@ -25,8 +25,10 @@
 
         <plugin.version.maven-jar>3.3.0</plugin.version.maven-jar>
 
+        <plugin.assembly.final-name>${project.artifactId}-${version.zeebe}-${version.hazelcast}</plugin.assembly.final-name>
+
         <!-- release parent settings -->
-        <version.java>17</version.java>
+        <version.java>21</version.java>
         <nexus.snapshot.repository>https://artifacts.camunda.com/artifactory/zeebe-io-snapshots/
         </nexus.snapshot.repository>
         <nexus.release.repository>https://artifacts.camunda.com/artifactory/zeebe-io/
@@ -138,7 +140,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
                 <configuration>
-                    <release>11</release>
+                    <release>${version.java}</release>
                 </configuration>
             </plugin>
 

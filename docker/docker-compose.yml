@@ -7,7 +7,7 @@ networks:
 services:
   zeebe:
     container_name: zeebe_broker
-    image: camunda/zeebe:1.0.0
+    image: camunda/zeebe:8.4.6
     environment:
       - ZEEBE_LOG_LEVEL=debug
     ports:
@@ -15,7 +15,7 @@ services:
       - "9600:9600"
       - "5701:5701"
     volumes:
-      - ../exporter/target/jib/zeebe-hazelcast-exporter-jar-with-dependencies.jar:/usr/local/zeebe/exporters/zeebe-hazelcast-exporter-jar-with-dependencies.jar
+      - ../exporter/target/jib/zeebe-hazelcast-exporter-8.4.6-5.3.7-jar-with-dependencies.jar:/usr/local/zeebe/exporters/zeebe-hazelcast-exporter-jar-with-dependencies.jar
       - ./application.yaml:/usr/local/zeebe/config/application.yaml
     networks:
       - zeebe_network

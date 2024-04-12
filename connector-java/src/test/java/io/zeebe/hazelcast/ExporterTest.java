@@ -1,5 +1,7 @@
 package io.zeebe.hazelcast;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.core.HazelcastInstance;
@@ -11,20 +13,17 @@ import io.camunda.zeebe.protocol.record.value.BpmnElementType;
 import io.zeebe.exporter.proto.Schema;
 import io.zeebe.hazelcast.connect.java.ZeebeHazelcast;
 import io.zeebe.hazelcast.testcontainers.ZeebeTestContainer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
 public class ExporterTest {
@@ -82,7 +81,7 @@ public class ExporterTest {
             () ->
                 assertThat(deploymentRecords)
                     .extracting(r -> r.getMetadata().getIntent())
-                    .contains(DeploymentIntent.FULLY_DISTRIBUTED.name()));
+                    .contains(DeploymentIntent.CREATED.name()));
 
     final var sequence2 = zeebeHazelcast.getSequence();
 
@@ -169,9 +168,9 @@ public class ExporterTest {
         .untilAsserted(
             () ->
                 assertThat(deploymentRecords)
-                    .hasSize(3)
+                    .hasSize(2)
                     .extracting(r -> r.getMetadata().getIntent())
-                    .contains("CREATE", "CREATED", "FULLY_DISTRIBUTED"));
+                    .contains("CREATE", "CREATED"));
 
     zeebeHazelcast.close();
     deploymentRecords.clear();
@@ -195,9 +194,9 @@ public class ExporterTest {
 
     // then
     assertThat(deploymentRecords)
-        .hasSize(3)
+        .hasSize(2)
         .extracting(r -> r.getMetadata().getIntent())
-        .contains("CREATE", "CREATED", "FULLY_DISTRIBUTED");
+        .contains("CREATE", "CREATED");
   }
 
   @Test
@@ -215,7 +214,7 @@ public class ExporterTest {
             () ->
                 assertThat(deploymentRecords)
                     .extracting(r -> r.getMetadata().getIntent())
-                    .contains(DeploymentIntent.FULLY_DISTRIBUTED.name()));
+                    .contains(DeploymentIntent.CREATED.name()));
 
     zeebeHazelcast.close();
     deploymentRecords.clear();
@@ -257,7 +256,7 @@ public class ExporterTest {
             () ->
                 assertThat(deploymentRecords)
                     .extracting(r -> r.getMetadata().getIntent())
-                    .contains(DeploymentIntent.FULLY_DISTRIBUTED.name()));
+                    .contains(DeploymentIntent.CREATED.name()));
 
     final var sequence = zeebeHazelcast.getSequence();
 
